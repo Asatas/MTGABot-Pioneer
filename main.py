@@ -13,6 +13,7 @@ if __name__ == "__main__":
     while (True):
         time.sleep(0.1)
         print('------------------------------------------------------------------')
+        #print('WINFO: ', window_info)
         state = get_game_state(window_info)
         if state is not None:
             print(state)

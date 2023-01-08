@@ -13,6 +13,7 @@ if __name__ == "__main__":
     window_info['width_fullscreen'] = 1920
     window_info['height_fullscreen'] = 1080
 
-    img = get_full_screen(window_info)
+    shit, img = get_full_screen(window_info)
+    print(img)
 
-    cv2.imwrite('./test.png',img)
+    cv2.imwrite('./test.png', img)

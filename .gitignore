@@ -1,2 +1,4 @@
 *.pyc
 env
+misc
+accounts.txt

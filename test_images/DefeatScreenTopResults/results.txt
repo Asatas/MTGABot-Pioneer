@@ -1,0 +1,8 @@
+Testing complete for:  test_image_5.png  tests ran:  10 max_pixel_distance:  4673.164024512728
+All test results:  {'test_image_1.png': (10, 3291.9763061115736), 'test_image_2.png': (10, 4498.5607698462845), 'test_image_3.png': (10, 3980.7212914244574), 'test_image_4.png': (10, 3695.0518264295024), 'test_image_5.png': (10, 4673.164024512728)}
+All testing complete, tests ran:  5 best_picture:  test_image_1.png
+
+VIEW_LOCATION_DICT = {
+    'FIND_C1': (978, 141),
+    'FIND_C2': (1015, 208),
+}

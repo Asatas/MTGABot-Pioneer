@@ -1,0 +1,10 @@
+Testing complete for:  test_image_3.png  tests ran:  10 max_pixel_distance:  1079.6587423811286
+All test results:  {'test_image_1.png': (10, 1079.6587423811286), 'test_image_2.png': (10, 689.98115916306), 'test_image_3.png': (10, 1079.6587423811286)}
+All testing complete, tests ran:  3 best_picture:  test_image_2.png
+
+VIEW_LOCATION_DICT = {
+    'FIND_C1': (88, 338),
+    'FIND_C2': (108, 369),
+}
+
+Use cutoff 2000

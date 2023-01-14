@@ -1,0 +1,8 @@
+All test results:  {'test_image_1.png': (20, 320.4996099841621)}
+All testing complete, tests ran:  1 best_picture:  test_image_1.png
+VIEW_LOCATION_DICT = {
+    'FIND_C1': (1581, 85),
+    'FIND_C2': (1641, 204),
+}
+
+Cutoff 1000

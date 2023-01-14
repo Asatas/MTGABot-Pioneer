@@ -1,0 +1,7 @@
+All test results:  {'test_image_1.png': (25, 7881.052214013051), 'test_image_2.png': (25, 5932.354844410439), 'test_image_3.png': (25, 7561.198119345901), 'test_image_4.png': (25, 6575.701559529599), 'test_image_5.png': (25, 6682.823804350972), 'test_image_6.png': (25, 7038.676935333799), 'test_image_7.png': (25, 6897.538618956765), 'test_image_8.png': (25, 6486.44054933058), 'test_image_9.png': (25, 7104.882687279221), 'test_image_10.png': (25, 6895.943372737337)}
+All testing complete, tests ran:  10 best_picture:  test_image_2.png
+
+VIEW_LOCATION_DICT = {
+    'FIND_C1': (722, 140),
+    'FIND_C2': (1188, 209),
+}

@@ -1,0 +1,9 @@
+All test results:  {'test_image_1.png': (10, 1009.6281493698559), 'test_image_2.png': (10, 660.5073807309045), 'test_image_3.png': (10, 1009.6281493698559)}
+All testing complete, tests ran:  3 best_picture:  test_image_2.png
+
+VIEW_LOCATION_DICT = {
+    'FIND_C1': (88, 338),
+    'FIND_C2': (108, 369),
+}
+
+Use cutoff 2000

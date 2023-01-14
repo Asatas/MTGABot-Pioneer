@@ -1,1 +1,1 @@
-virtualenv .env && source .env/bin/activate && pip install -r requirements.txt
+virtualenv .env && .\.env\Scripts\activate.bat && pip install -r requirements.txt

@@ -35,6 +35,8 @@ VIEW_LOCATION_DICT = {
     'REWARD_SCREEN_C2': (1059, 137),
     'DEFEAT_SCREEN_TOP_C1': (978, 141),
     'DEFEAT_SCREEN_TOP_C2': (1015, 208),
+    'DISCARD_C1': (867, 445),
+    'DISCARD_C2': (1044, 467),
 }
 
 REF_IMG_DICT = {
@@ -56,6 +58,7 @@ REF_IMG_DICT = {
     'WIN_SCREEN_TOP': cv2.imread(DIR + '/ref_images/WIN_SCREEN_TOP.png'),
     'REWARD_SCREEN': cv2.imread(DIR + '/ref_images/REWARD_SCREEN.png'),
     'DEFEAT_SCREEN_TOP': cv2.imread(DIR + '/ref_images/DEFEAT_SCREEN_TOP.png'),
+    'DISCARD': cv2.imread(DIR + '/ref_images/DISCARD.png'),
 }
 
 CLICK_LOCATION_DICT = {
@@ -76,4 +79,5 @@ CLICK_LOCATION_DICT = {
     'HISTORIC_RANKED': (1593, 582),
     'EXPAND_DECK': (102, 356),
     'SELECT_FIRST_DECK': (456, 573),
+    'DISCARD': (938, 1020),
 }

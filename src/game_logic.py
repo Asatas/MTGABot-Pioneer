@@ -28,6 +28,8 @@ def get_game_state():
         return 'DIALOG', img
     elif isGameOver(img):
         return 'ENDOFGAME', img
+    elif isDiscard(img):
+        return 'DISCARD', img
     else:
         return None, img
 

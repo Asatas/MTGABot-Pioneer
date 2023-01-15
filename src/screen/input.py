@@ -14,6 +14,7 @@ def click(x, y):
     mouse.position = (x, y)
     time.sleep(abs(random.normal(0.1)))
     pyautogui.mouseDown()
+    time.sleep(0.05)
     pyautogui.mouseUp()
 
 

@@ -59,6 +59,10 @@ def isRewardScreen(full_screen_img):
     return onScreen('REWARD_SCREEN', full_screen_img, cutoff=2000)
 
 
+def isDiscard(full_screen_img):
+    return onScreen('DISCARD', full_screen_img, cutoff=2000)
+
+
 def isSelectDecks(full_screen_img):
     select_decks_one = onScreen(
         'SELECT_DECK_EVENT_SELECTED', full_screen_img, cutoff=2000)

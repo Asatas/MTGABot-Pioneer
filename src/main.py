@@ -53,3 +53,9 @@ if __name__ == "__main__":
 
         elif state == 'LOADSCREEN':
             click_on('RIGHT_EDGE')
+
+        elif state == 'DISCARD':
+            click_on('DISCARD')
+            time.sleep(1)
+            click_on('PASS')
+            time.sleep(2)

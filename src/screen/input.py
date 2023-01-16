@@ -67,6 +67,7 @@ def playCardAt(card_tl_corner):
     else:
         x1 += random.randint(-30, 30)
         y1 += random.randint(10, 50)
+    print('after transform: ', x1, y1)
 
     # if x1 > 500:
     #    x1 += random.randint(70, 150)
@@ -84,3 +85,4 @@ def playCardAt(card_tl_corner):
     y_center = 1080 / 2
 
     move_card(x1, y1, x_center, y_center)
+    time.sleep(1)

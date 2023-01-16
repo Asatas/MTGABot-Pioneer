@@ -101,16 +101,16 @@ def handle_start_game(img):
     else:
         lprint('On select decks screen')
         click_on('FIND_MATCH')
-        time.sleep(1)
+        time.sleep(3)
         click_on('RANKED_MATCH')
-        time.sleep(1)
+        time.sleep(2)
         click_on('HISTORIC_RANKED')
-        time.sleep(1)
+        time.sleep(2)
 
         img = get_full_screen()
         if (isDeckCollapsed(img) and (not isDeckExpanded(img))):
             click_on('EXPAND_DECK')
-            time.sleep(1)
+            time.sleep(2)
         img = get_full_screen()
         if (isDeckCollapsed(img) and (not isDeckExpanded(img))):
             exit_and_report('DECK SHOULD BE EXPANDED', img)
@@ -122,7 +122,7 @@ def handle_start_game(img):
         else:
             isDeckExpandedV = isDeckExpanded(img)
             isDeckCollapsedV = isDeckCollapsed(img)
-            lprint('isDeckExpanded: ' + isDeckExpandedV)
-            lprint('isDeckCollapsed: ' + isDeckCollapsedV)
+            lprint('isDeckExpanded: ' + str(isDeckExpandedV))
+            lprint('isDeckCollapsed: ' + str(isDeckCollapsedV))
             exit_and_report(
                 'WEIRD COMBINATION OF RESULTS - DECK SHOULD BE EXPANDED', img)

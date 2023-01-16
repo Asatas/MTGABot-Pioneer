@@ -101,9 +101,12 @@ def get_full_screen():
 def get_screenshot(x1, y1, x2, y2):
     # win32gui.SetForegroundWindow(window_info['hwnd'])
     ret = is_mtga_window_foreground()
+    ret = True
     if (not ret):
-        set_mtga_window_foreground()
-        ret = is_mtga_window_foreground()
+        # set_mtga_window_foreground()
+        # time.sleep(0.5)
+        # ret = is_mtga_window_foreground()
+        exit_and_report('Window not in foreground', get_system_screenshot())
     if ret:
         box = (x1, y1, x2, y2)
         screen = ImageGrab.grab(box)
@@ -113,7 +116,8 @@ def get_screenshot(x1, y1, x2, y2):
         img_reversed[:, :, 0] = img[:, :, 2]
         img_reversed[:, :, 2] = img[:, :, 0]
     else:
-        exit_and_report('Window not in foreground', get_system_screenshot())
+        exit_and_report('Window not in foreground after retry',
+                        get_system_screenshot())
         '''img_reversed = np.zeros(
             (1080, 1920, 3))'''
     return img_reversed
@@ -126,6 +130,7 @@ def get_system_screenshot():
     y2 = 1080
     box = (x1, y1, x2, y2)
     screen = ImageGrab.grab(box)
+
     img = np.array(screen.getdata(), dtype=float).reshape(
         (screen.size[1], screen.size[0], 3))
     img_reversed = img.copy()
@@ -136,14 +141,22 @@ def get_system_screenshot():
 
 def locate_leftmost_playable_card():
 
-    highlight_color = [255, 255, 0]
-    lower_bound = np.uint8([254, 254, 0])
-    upper_bound = np.uint8([255, 255, 0])
+    # highlight_color = [255, 255, 0]
+    lower_bound = np.uint8([150, 150, 0])
+    upper_bound = np.uint8([255, 255, 1])
 
     hand_img = get_hand_region()
+    '''print('hand img', hand_img)
+    print('hand img x: ', len(hand_img[0]), 'y: ', len(
+        hand_img), 'z: ', len(hand_img[0][0]))
+    cv2.imwrite('./hand.png', hand_img)'''
 
     mask = cv2.inRange(hand_img, lower_bound, upper_bound)
     mask = mask.astype(np.float32)
+
+    '''print('Mask: ', mask)
+    print('Mask x: ', len(mask[0]), 'y: ', len(mask))
+    cv2.imwrite('./mask.png', mask)'''
 
     template = REF_IMG_DICT['corner_mask_1']
     template = cv2.cvtColor(template.astype(np.float32), cv2.COLOR_BGR2GRAY)

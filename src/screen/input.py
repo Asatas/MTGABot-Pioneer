@@ -58,15 +58,11 @@ def playCardAt(card_tl_corner):
     y1 = card_tl_corner[1]
 
     print('playcardat: ', x1, y1)
-    if x1 >= 450:
-        x1 += random.randint(70, 150)
-        y1 += random.randint(10, 50)
-    elif x1 >= 415:
-        x1 += random.randint(-10, 150)
-        y1 += random.randint(10, 50)
+    if x1 <= 450:
+        x1 += random.randint(50, 100)
     else:
-        x1 += random.randint(-30, 30)
-        y1 += random.randint(10, 50)
+        x1 += random.randint(50, 100)
+        y1 += random.randint(20, 30)
     print('after transform: ', x1, y1)
 
     # if x1 > 500:

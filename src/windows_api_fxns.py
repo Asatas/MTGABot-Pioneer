@@ -4,7 +4,6 @@ import pywintypes
 import win32api
 import win32con
 import cv2
-from screen.screen import *
 import os
 
 import subprocess
@@ -73,7 +72,7 @@ def set_primary_screen_resolution(x, y):
 
 
 def exit_and_report(error_text, img):
-    lprint('FATAL ERROR' + error_text)
+    lprint('FATAL ERROR ' + error_text)
     write_img(img, 'ERROR')
     exit()
 

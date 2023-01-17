@@ -71,9 +71,10 @@ def set_primary_screen_resolution(x, y):
     print('set resolution to: ', x, ' ', y)
 
 
-def exit_and_report(error_text, img):
+def exit_and_report(error_text, img=None):
     lprint('FATAL ERROR ' + error_text)
-    write_img(img, 'ERROR')
+    if (img):
+        write_img(img, 'ERROR')
     exit()
 
 
@@ -151,6 +152,9 @@ def startup():
     set_up_dir_and_logger()
     time.sleep(1)
     start_mtga_process()
-    time.sleep(1)
+    time.sleep(5)
+    if (not is_mtga_open()):
+        # TO-DO Implement Handle Update Logic
+        exit_and_report('MTGA Not Open', None)
     set_mtga_window_foreground()
     time.sleep(1)

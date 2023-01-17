@@ -118,7 +118,7 @@ def handle_start_game(img):
             click_on('SELECT_FIRST_DECK')
             time.sleep(1.5)
             click_on('PLAY_GAME')
-            time.sleep(3)
+            time.sleep(4)
         else:
             isDeckExpandedV = isDeckExpanded(img)
             isDeckCollapsedV = isDeckCollapsed(img)

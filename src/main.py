@@ -30,6 +30,7 @@ if __name__ == "__main__":
 
         elif state == 'BLOCKING':
             click_on('PASS')
+            time.sleep(1)
 
         elif state == 'ENDOFGAME':
             time.sleep(1)
@@ -47,12 +48,15 @@ if __name__ == "__main__":
 
         elif state == 'MULLIGAN':
             click_on('KEEP_HAND')
+            time.sleep(1)
 
         elif state == 'DIALOG':
             click_on('DIALOG_DONE')
+            time.sleep(1)
 
         elif state == 'LOADSCREEN':
             click_on('RIGHT_EDGE')
+            time.sleep(1)
 
         elif state == 'DISCARD':
             click_on('DISCARD')

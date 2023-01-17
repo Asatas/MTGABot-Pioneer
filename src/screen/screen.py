@@ -101,7 +101,6 @@ def get_full_screen():
 def get_screenshot(x1, y1, x2, y2):
     # win32gui.SetForegroundWindow(window_info['hwnd'])
     ret = is_mtga_window_foreground()
-    ret = True
     if (not ret):
         # set_mtga_window_foreground()
         # time.sleep(0.5)

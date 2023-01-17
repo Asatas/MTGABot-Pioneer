@@ -56,7 +56,7 @@ def is_mtga_window_foreground():
 def start_mtga_process():
     if (not is_mtga_open()):
         subprocess.Popen(
-            ['C:\Program Files\Wizards of the Coast\MTGA\MTGA.exe'])
+            ['C:\Program Files\Wizards of the Coast\MTGA\MTGALauncher\MTGALauncher.exe'])
 
 
 def set_primary_screen_resolution(x, y):

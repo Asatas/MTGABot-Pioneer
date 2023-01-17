@@ -92,6 +92,19 @@ def handle_rewards(initial_img):
         img = get_full_screen()
 
 
+def go_to_find_match():
+    img = None
+    for x in range(4):
+        click_on('FIND_MATCH')
+        time.sleep(3)
+        img = get_full_screen()
+        if (isFindMatch(img)):
+            return
+        else:
+            lprint('Still not on find match screen, tries: ' + str(x))
+    exit_and_report('COULD NOT GET TO FIND MATCH SCREEN', img)
+
+
 def handle_start_game(img):
     # TO-DO Verify clicking the right button here
     if (not isSelectDecks(img)):
@@ -100,8 +113,9 @@ def handle_start_game(img):
         time.sleep(3)
     else:
         lprint('On select decks screen')
-        click_on('FIND_MATCH')
-        time.sleep(3)
+
+        go_to_find_match()
+
         click_on('RANKED_MATCH')
         time.sleep(2)
         click_on('HISTORIC_RANKED')
@@ -111,10 +125,10 @@ def handle_start_game(img):
         if (isDeckCollapsed(img) and (not isDeckExpanded(img))):
             click_on('EXPAND_DECK')
             time.sleep(2)
-        img = get_full_screen()
-        if (isDeckCollapsed(img) and (not isDeckExpanded(img))):
-            exit_and_report('DECK SHOULD BE EXPANDED', img)
-        elif (isDeckExpanded(img) and (not isDeckCollapsed(img))):
+            img = get_full_screen()
+            if (isDeckCollapsed(img) and (not isDeckExpanded(img))):
+                exit_and_report('DECK SHOULD BE EXPANDED', img)
+        if (isDeckExpanded(img) and (not isDeckCollapsed(img))):
             click_on('SELECT_FIRST_DECK')
             time.sleep(1.5)
             click_on('PLAY_GAME')

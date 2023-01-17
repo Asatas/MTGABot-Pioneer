@@ -71,6 +71,12 @@ def isSelectDecks(full_screen_img):
     return (select_decks_one or select_decks_two)
 
 
+def isFindMatch(full_screen_img):
+    select_decks_one = onScreen('DECK_EXPANDED', full_screen_img, cutoff=2000)
+    select_decks_two = onScreen('DECK_COLLAPSED', full_screen_img, cutoff=2000)
+    return (select_decks_one or select_decks_two)
+
+
 def onScreen(element_to_look_for, full_screen_img, cutoff=10000, save_img=False):
     (x1, y1) = VIEW_LOCATION_DICT[f'{element_to_look_for}_C1']
     (x2, y2) = VIEW_LOCATION_DICT[f'{element_to_look_for}_C2']

@@ -12,7 +12,7 @@ mouse = mouse.Controller()
 def click(x, y):
     time.sleep(abs(random.normal(0.1)))
     mouse.position = (x, y)
-    time.sleep(abs(random.normal(0.1)))
+    time.sleep(abs(random.normal(0.15)))
     pyautogui.mouseDown()
     time.sleep(0.05)
     pyautogui.mouseUp()

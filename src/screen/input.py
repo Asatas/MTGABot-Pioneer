@@ -21,14 +21,14 @@ def click(x, y):
 def click_down(x, y):
     time.sleep(abs(random.normal(0.1)))
     mouse.position = (x, y)
-    time.sleep(abs(random.normal(0.1)))
+    time.sleep(abs(random.normal(0.15)))
     pyautogui.mouseDown()
 
 
 def click_up(x, y):
     time.sleep(abs(random.normal(0.1)))
     mouse.position = (x, y)
-    time.sleep(abs(random.normal(0.1)))
+    time.sleep(abs(random.normal(0.15)))
     pyautogui.mouseUp()
 
 
@@ -44,6 +44,7 @@ def click_on(item):
 
 def move_card(x1, y1, x2, y2):
     click_down(x1, y1)
+    time.sleep(0.1)
     click_up(x2, y2)
     print(
         f'EBot: moved card from ({int(x1)},{int(y1)}) -> ({int(x2)},{int(y2)})')

@@ -8,82 +8,88 @@ from screen.locations import *
 
 
 def isLoadingScreen(full_screen_img):
-    return onScreen('BLACK_BAR', full_screen_img, cutoff=1000)
+    return onScreen("BLACK_BAR", full_screen_img, cutoff=1000)
 
 
 def onKeepHand(full_screen_img):
-    return onScreen('KEEP_HAND', full_screen_img)
+    return onScreen("KEEP_HAND", full_screen_img)
 
 
 def onHomeMenu(full_screen_img):
-    return onScreen('HOME_MENU', full_screen_img)
+    return onScreen("HOME_MENU", full_screen_img)
 
 
 def hasPriority(full_screen_img):
-    return onScreen('PASS_BUTTON', full_screen_img, cutoff=6000)
+    return onScreen("PASS_BUTTON", full_screen_img, cutoff=6000)
 
 
 def hasBlockingPriority(full_screen_img):
-    return onScreen('BLOCK_BUTTON', full_screen_img, cutoff=7500)
+    return onScreen("BLOCK_BUTTON", full_screen_img, cutoff=7500)
 
 
 def isDialog(full_screen_img):
-    return onScreen('DIALOG_DONE_BUTTON', full_screen_img)
+    return onScreen("DIALOG_DONE_BUTTON", full_screen_img)
 
 
 def isGameOver(full_screen_img):
-    return onScreen('VIEW_BATTLEFIELD', full_screen_img, cutoff=5000)
+    return onScreen("VIEW_BATTLEFIELD", full_screen_img, cutoff=5000)
 
 
 def isDefeat(full_screen_img):
-    return onScreen('DEFEAT', full_screen_img, cutoff=10000)
+    return onScreen("DEFEAT", full_screen_img, cutoff=10000)
+
+
+def isWin(full_screen_img):
+    return onScreen("WIN", full_screen_img, cutoff=8000)
 
 
 def isDeckExpanded(full_screen_img):
-    return onScreen('DECK_EXPANDED', full_screen_img, cutoff=2000)
+    return onScreen("DECK_EXPANDED", full_screen_img, cutoff=2000)
 
 
 def isDeckCollapsed(full_screen_img):
-    return onScreen('DECK_COLLAPSED', full_screen_img, cutoff=2000)
+    return onScreen("DECK_COLLAPSED", full_screen_img, cutoff=2000)
 
 
 def isWinScreenTop(full_screen_img):
-    return onScreen('WIN_SCREEN_TOP', full_screen_img, cutoff=10000)
+    return onScreen("WIN_SCREEN_TOP", full_screen_img, cutoff=10000)
 
 
 def isDefeatScreenTop(full_screen_img):
-    return onScreen('DEFEAT_SCREEN_TOP', full_screen_img, cutoff=8000)
+    return onScreen("DEFEAT_SCREEN_TOP", full_screen_img, cutoff=8000)
 
 
 def isRewardScreen(full_screen_img):
-    return onScreen('REWARD_SCREEN', full_screen_img, cutoff=2000)
+    return onScreen("REWARD_SCREEN", full_screen_img, cutoff=2000)
 
 
 def isDiscard(full_screen_img):
-    return onScreen('DISCARD', full_screen_img, cutoff=2000)
+    return onScreen("DISCARD", full_screen_img, cutoff=2000)
 
 
 def isSelectDecks(full_screen_img):
     select_decks_one = onScreen(
-        'SELECT_DECK_EVENT_SELECTED', full_screen_img, cutoff=2000)
+        "SELECT_DECK_EVENT_SELECTED", full_screen_img, cutoff=2000
+    )
     select_decks_two = onScreen(
-        'SELECT_DECK_EVENT_NOT_SELECTED', full_screen_img, cutoff=2000)
-    return (select_decks_one or select_decks_two)
+        "SELECT_DECK_EVENT_NOT_SELECTED", full_screen_img, cutoff=2000
+    )
+    return select_decks_one or select_decks_two
 
 
 def isFindMatch(full_screen_img):
-    select_decks_one = onScreen('DECK_EXPANDED', full_screen_img, cutoff=2000)
-    select_decks_two = onScreen('DECK_COLLAPSED', full_screen_img, cutoff=2000)
-    return (select_decks_one or select_decks_two)
+    select_decks_one = onScreen("DECK_EXPANDED", full_screen_img, cutoff=2000)
+    select_decks_two = onScreen("DECK_COLLAPSED", full_screen_img, cutoff=2000)
+    return select_decks_one or select_decks_two
 
 
 def onScreen(element_to_look_for, full_screen_img, cutoff=10000, save_img=False):
-    (x1, y1) = VIEW_LOCATION_DICT[f'{element_to_look_for}_C1']
-    (x2, y2) = VIEW_LOCATION_DICT[f'{element_to_look_for}_C2']
+    (x1, y1) = VIEW_LOCATION_DICT[f"{element_to_look_for}_C1"]
+    (x2, y2) = VIEW_LOCATION_DICT[f"{element_to_look_for}_C2"]
     img = full_screen_img[y1:y2, x1:x2]
     if save_img:
-        print('saving example image:')
-        cv2.imwrite(f'test_{element_to_look_for}.png', img)
+        print("saving example image:")
+        cv2.imwrite(f"test_{element_to_look_for}.png", img)
     ref_img = REF_IMG_DICT[element_to_look_for]
     return areImgsSimilar(img, ref_img, cutoff=cutoff)
 
@@ -107,24 +113,25 @@ def get_full_screen():
 def get_screenshot(x1, y1, x2, y2):
     # win32gui.SetForegroundWindow(window_info['hwnd'])
     ret = is_mtga_window_foreground()
-    if (not ret):
+    if not ret:
         # set_mtga_window_foreground()
         # time.sleep(0.5)
         # ret = is_mtga_window_foreground()
-        exit_and_report('Window not in foreground', get_system_screenshot())
+        exit_and_report("Window not in foreground", get_system_screenshot())
     if ret:
         box = (x1, y1, x2, y2)
         screen = ImageGrab.grab(box)
         img = np.array(screen.getdata(), dtype=float).reshape(
-            (screen.size[1], screen.size[0], 3))
+            (screen.size[1], screen.size[0], 3)
+        )
         img_reversed = img.copy()
         img_reversed[:, :, 0] = img[:, :, 2]
         img_reversed[:, :, 2] = img[:, :, 0]
     else:
-        exit_and_report('Window not in foreground after retry',
+        exit_and_report("Window not in foreground after retry",
                         get_system_screenshot())
-        '''img_reversed = np.zeros(
-            (1080, 1920, 3))'''
+        """img_reversed = np.zeros(
+            (1080, 1920, 3))"""
     return img_reversed
 
 
@@ -137,7 +144,8 @@ def get_system_screenshot():
     screen = ImageGrab.grab(box)
 
     img = np.array(screen.getdata(), dtype=float).reshape(
-        (screen.size[1], screen.size[0], 3))
+        (screen.size[1], screen.size[0], 3)
+    )
     img_reversed = img.copy()
     img_reversed[:, :, 0] = img[:, :, 2]
     img_reversed[:, :, 2] = img[:, :, 0]
@@ -151,19 +159,19 @@ def locate_leftmost_playable_card():
     upper_bound = np.uint8([255, 255, 1])
 
     hand_img = get_hand_region()
-    '''print('hand img', hand_img)
+    """print('hand img', hand_img)
     print('hand img x: ', len(hand_img[0]), 'y: ', len(
         hand_img), 'z: ', len(hand_img[0][0]))
-    cv2.imwrite('./hand.png', hand_img)'''
+    cv2.imwrite('./hand.png', hand_img)"""
 
     mask = cv2.inRange(hand_img, lower_bound, upper_bound)
     mask = mask.astype(np.float32)
 
-    '''print('Mask: ', mask)
+    """print('Mask: ', mask)
     print('Mask x: ', len(mask[0]), 'y: ', len(mask))
-    cv2.imwrite('./mask.png', mask)'''
+    cv2.imwrite('./mask.png', mask)"""
 
-    template = REF_IMG_DICT['corner_mask_1']
+    template = REF_IMG_DICT["corner_mask_1"]
     template = cv2.cvtColor(template.astype(np.float32), cv2.COLOR_BGR2GRAY)
     w, h = template.shape
 
@@ -181,8 +189,7 @@ def locate_leftmost_playable_card():
 
     if leftmost_pt[0] < mask.shape[1]:
         isPlayableCard = True
-    leftmost_pt_full_image = [
-        leftmost_pt[0], leftmost_pt[1] + 1080 - 150]
+    leftmost_pt_full_image = [leftmost_pt[0], leftmost_pt[1] + 1080 - 150]
     return isPlayableCard, leftmost_pt_full_image
 
 

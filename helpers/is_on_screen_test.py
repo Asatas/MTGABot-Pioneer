@@ -5,12 +5,12 @@ from PIL import ImageGrab
 
 
 VIEW_LOCATION_DICT = {
-    'TEST_IMAGE_C1': (867, 445),
-    'TEST_IMAGE_C2': (1044, 467),
+    "TEST_IMAGE_C1": (903, 497),
+    "TEST_IMAGE_C2": (967, 580),
 }
 
 REF_IMG_DICT = {
-    'TEST_IMAGE': cv2.imread('./test_images/test_image_1.png'),
+    "TEST_IMAGE": cv2.imread("./test_images/test_image_1.png"),
 }
 
 
@@ -20,7 +20,8 @@ def get_screenshot(x1, y1, x2, y2):
     box = (x1, y1, x2, y2)
     screen = ImageGrab.grab(box)
     img = np.array(screen.getdata(), dtype=float).reshape(
-        (screen.size[1], screen.size[0], 3))
+        (screen.size[1], screen.size[0], 3)
+    )
     img_reversed = img.copy()
     img_reversed[:, :, 0] = img[:, :, 2]
     img_reversed[:, :, 2] = img[:, :, 0]
@@ -37,12 +38,12 @@ def get_full_screen():
 
 
 def onScreen(element_to_look_for, full_screen_img, cutoff=10000, save_img=False):
-    (x1, y1) = VIEW_LOCATION_DICT[f'{element_to_look_for}_C1']
-    (x2, y2) = VIEW_LOCATION_DICT[f'{element_to_look_for}_C2']
+    (x1, y1) = VIEW_LOCATION_DICT[f"{element_to_look_for}_C1"]
+    (x2, y2) = VIEW_LOCATION_DICT[f"{element_to_look_for}_C2"]
     img = full_screen_img[y1:y2, x1:x2]
     if save_img:
-        print('saving example image:')
-        cv2.imwrite(f'test_{element_to_look_for}.png', img)
+        print("saving example image:")
+        cv2.imwrite(f"test_{element_to_look_for}.png", img)
     ref_img = REF_IMG_DICT[element_to_look_for]
     return areImgsSimilar(img, ref_img, cutoff=cutoff)
 
@@ -66,14 +67,12 @@ if __name__ == "__main__":
         full_screen_img = get_full_screen()
 
         is_on_screen, pixel_dist = onScreen(
-            'TEST_IMAGE', full_screen_img, cutoff=10000)
+            "TEST_IMAGE", full_screen_img, cutoff=10000)
 
-        print(
-            is_on_screen,  pixel_dist
-        )
+        print(is_on_screen, pixel_dist)
 
         counter += 1
-        if (pixel_dist > max_pixel_dist):
+        if pixel_dist > max_pixel_dist:
             max_pixel_dist = pixel_dist
         # time.sleep(0.2)
-    print('max_pixel_dist: ', max_pixel_dist)
+    print("max_pixel_dist: ", max_pixel_dist)

@@ -12,10 +12,10 @@ import win32gui
 import time
 from datetime import datetime
 
-from util.lprint import lprint
+from util.lprint import *
 from pynput import mouse
 
-WINDOW_STRING = 'MTGA'
+WINDOW_STRING = "MTGA"
 DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 mouse = mouse.Controller()
 
@@ -29,7 +29,7 @@ def set_mtga_window_foreground():
     window_coordinates = win32gui.GetWindowRect(window_handle)
     # Verify the window is in the upper left corner of the screen
     # and that it is the correct size, if not set it properly.
-    if ((0, 0, 1920, 1080) != window_coordinates):
+    if (0, 0, 1920, 1080) != window_coordinates:
         # Move the window to a known offset (0,0) for the upper left corner,
         # and force a resize so this works on every system every time
         win32gui.SetWindowPos(window_handle, None, 0, 0, 1920, 1080, 0)
@@ -38,10 +38,9 @@ def set_mtga_window_foreground():
 
 
 def is_mtga_open():
-    """Checks if Window is open
-    """
+    """Checks if Window is open"""
     window_handle = win32gui.FindWindow(None, WINDOW_STRING)
-    if (window_handle):
+    if window_handle:
         return True
     return False
 
@@ -54,9 +53,10 @@ def is_mtga_window_foreground():
 
 
 def start_mtga_process():
-    if (not is_mtga_open()):
+    if not is_mtga_open():
         subprocess.Popen(
-            ['C:\Program Files\Wizards of the Coast\MTGA\MTGALauncher\MTGALauncher.exe'])
+            ["C:\Program Files\Wizards of the Coast\MTGA\MTGALauncher\MTGALauncher.exe"]
+        )
 
 
 def set_primary_screen_resolution(x, y):
@@ -68,93 +68,113 @@ def set_primary_screen_resolution(x, y):
 
     win32api.ChangeDisplaySettings(devmode, 0)
 
-    print('set resolution to: ', x, ' ', y)
+    print("set resolution to: ", x, " ", y)
 
 
 def exit_and_report(error_text, img=None):
-    lprint('FATAL ERROR ' + error_text)
-    if (img):
-        write_img(img, 'ERROR')
+    critical_print("FATAL ERROR " + error_text)
+    if not img is None:
+        write_img(img, "ERROR")
     exit()
+
+
+def set_up_critical_logger(critical_logs_file_name):
+    log = logging.getLogger("critical")
+    log_formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
+
+    file_handler_info = logging.FileHandler(critical_logs_file_name, mode="a")
+    file_handler_info.setFormatter(log_formatter)
+    file_handler_info.setLevel(logging.INFO)
+    log.addHandler(file_handler_info)
+    log.setLevel(logging.INFO)
 
 
 def set_up_dir_and_logger():
     now = datetime.now()
     date_str = now.strftime("%m-%d-%Y")
-    logs_directory_path = DIR + '/logs/' + date_str
+    logs_directory_path = DIR + "/logs/" + date_str
     if not os.path.exists(logs_directory_path):
         os.mkdir(logs_directory_path)
-        print('MADE DIRECTORY: ', logs_directory_path)
-    logs_file_name = logs_directory_path + '/app.log'
-    logging.basicConfig(level=logging.INFO, filename=logs_file_name, filemode='a',
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        print("MADE DIRECTORY: ", logs_directory_path)
+    logs_file_name = logs_directory_path + "/app.log"
+    logging.basicConfig(
+        level=logging.INFO,
+        filename=logs_file_name,
+        filemode="a",
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    )
+    critical_logs_file_name = logs_directory_path + "/app.critical.log"
+    set_up_critical_logger(critical_logs_file_name)
 
 
 def write_img(img, type):
     now = datetime.now()
     date_str = now.strftime("%m-%d-%Y")
     time_str = now.strftime("%H-%M-%S")
-    logs_directory_path = DIR + '/logs/' + date_str
-    if type == 'REWARD':
-        rewards_png_file_name = logs_directory_path + '/rewards_' + time_str + '.png'
+    logs_directory_path = DIR + "/logs/" + date_str
+    if type == "REWARD":
+        rewards_png_file_name = logs_directory_path + "/rewards_" + time_str + ".png"
         cv2.imwrite(rewards_png_file_name, img)
-    elif type == 'ERROR':
-        error_png_file_name = logs_directory_path + '/fatal_error_' + time_str + '.png'
+    elif type == "ERROR":
+        error_png_file_name = logs_directory_path + "/fatal_error_" + time_str + ".png"
         cv2.imwrite(error_png_file_name, img)
-    elif type == 'UNKOWN_GAME_OUTCOME':
-        png_file_name = logs_directory_path + \
-            '/unknown_game_outcome_' + time_str + '.png'
+    elif type == "UNKOWN_GAME_OUTCOME":
+        png_file_name = (
+            logs_directory_path + "/unknown_game_outcome_" + time_str + ".png"
+        )
         cv2.imwrite(png_file_name, img)
     else:
-        exit_and_report('Invalid write_img type', img)
+        exit_and_report("Invalid write_img type", img)
 
 
 def read_score_db(interval):
     now = datetime.now()
     date_str = now.strftime("%m-%d-%Y")
-    logs_directory_path = DIR + '/logs/' + date_str
-    path = logs_directory_path + '/scores.json'
-    if interval == 'DAY':
+    logs_directory_path = DIR + "/logs/" + date_str
+    path = logs_directory_path + "/scores.json"
+    if interval == "DAY":
         if os.path.isfile(path):
-            with open(path, 'r') as openfile:
+            with open(path, "r") as openfile:
                 data = json.load(openfile)
                 return data
         else:
             return {
-                "wins": 0,
-                "losses": 0,
-                "unknown": 0
+                "main": {"wins": 0, "losses": 0, "unknown": 0, "finished_playing": 0},
+                "color": {"wins": 0, "losses": 0, "unknown": 0, "finished_playing": 0},
             }
     else:
-        exit_and_report('Invalid interval type for read_score_db', None)
+        exit_and_report("Invalid interval type for read_score_db", None)
 
 
 def write_score_db(interval, score_db):
     now = datetime.now()
     date_str = now.strftime("%m-%d-%Y")
-    logs_directory_path = DIR + '/logs/' + date_str
-    path = logs_directory_path + '/scores.json'
-    if interval == 'DAY':
-        with open(path, 'w') as outfile:
+    logs_directory_path = DIR + "/logs/" + date_str
+    path = logs_directory_path + "/scores.json"
+    if interval == "DAY":
+        with open(path, "w") as outfile:
             json.dump(score_db, outfile)
     else:
-        exit_and_report('Invalid interval type for read_score_db', None)
+        exit_and_report("Invalid interval type for read_score_db", None)
 
 
 def failsafe():
-    if (mouse.position == (0, 0)):
-        lprint('FAILSAFE TRIGGERED, EXITING')
+    if mouse.position == (0, 0):
+        lprint("FAILSAFE TRIGGERED, EXITING")
         exit()
 
 
 def startup():
-    set_primary_screen_resolution(1920, 1080)
     set_up_dir_and_logger()
+    critical_print("Starting Ebot")
+    set_primary_screen_resolution(1920, 1080)
     time.sleep(1)
     start_mtga_process()
     time.sleep(5)
-    if (not is_mtga_open()):
+    if not is_mtga_open():
         # TO-DO Implement Handle Update Logic
-        exit_and_report('MTGA Not Open', None)
+        exit_and_report("MTGA Not Open", None)
     set_mtga_window_foreground()
     time.sleep(1)

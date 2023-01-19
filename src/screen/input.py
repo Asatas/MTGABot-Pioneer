@@ -43,9 +43,20 @@ def click_on(item):
 
 
 def move_card(x1, y1, x2, y2):
-    click_down(x1, y1)
-    time.sleep(0.1)
-    click_up(x2, y2)
+    # click_down(x1, y1)
+    time.sleep(abs(random.normal(0.1)))
+    mouse.position = (x1, y1)
+    time.sleep(abs(random.normal(0.15)))
+    time.sleep(0.2)
+    pyautogui.mouseDown()
+    time.sleep(0.2)
+    # click_up(x2, y2)
+    time.sleep(abs(random.normal(0.1)))
+    mouse.position = (x2, y2)
+    time.sleep(abs(random.normal(0.15)))
+    time.sleep(0.5)
+    pyautogui.mouseUp()
+
     print(
         f'EBot: moved card from ({int(x1)},{int(y1)}) -> ({int(x2)},{int(y2)})')
 

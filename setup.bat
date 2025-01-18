@@ -1,1 +1,1 @@
-virtualenv .env && .\.env\Scripts\activate.bat && pip install -r requirements.txt
+python -m virtualenv .env && .\.env\Scripts\activate.bat && pip install -r requirements.txt

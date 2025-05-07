@@ -11,7 +11,7 @@ def main():
     # setup
     startup()
     lprint("EBot ONLINE")
-
+    spells = 0
     # game loop
     while True:
         time.sleep(0.1)
@@ -25,10 +25,19 @@ def main():
             isPlayableCard, leftmost_card_pt = locate_leftmost_playable_card()
 
             if isPlayableCard:
-                playCardAt(leftmost_card_pt)
+                if spells < 4:
+                    playCardAt(leftmost_card_pt)
+                    spells += 1
+                else:
+                    spells = 0
+                    concede_game()
             else:
+                if spells >= 4:
+                    spells = 0
+                    concede_game()
                 click_on("PASS")
                 click_on("OPPONENT")
+
 
         elif state == "BLOCKING":
             click_on("PASS")
@@ -65,6 +74,12 @@ def main():
             time.sleep(1)
             click_on("PASS")
             time.sleep(2)
+
+        elif state == "PAY0":
+            click_on("PAY0")
+            time.sleep(1)
+            click_on("CONFIRM0")
+            time.sleep(1)
 
 
 if __name__ == "__main__":

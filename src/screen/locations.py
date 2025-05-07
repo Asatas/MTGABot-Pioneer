@@ -11,8 +11,6 @@ VIEW_LOCATION_DICT = {
     "KEEP_HAND_C2": (1265, 922),
     "PASS_BUTTON_C1": (1672, 923),
     "PASS_BUTTON_C2": (1722, 978),
-    "BLOCK_BUTTON_C1": (1672, 923),
-    "BLOCK_BUTTON_C2": (1722, 978),
     "VIEW_BATTLEFIELD_C1": (1672, 23),
     "VIEW_BATTLEFIELD_C2": (1722, 78),
     "BLACK_BAR_C1": (0, 23),
@@ -39,6 +37,10 @@ VIEW_LOCATION_DICT = {
     "DEFEAT_SCREEN_TOP_C2": (1015, 208),
     "DISCARD_C1": (867, 445),
     "DISCARD_C2": (1044, 467),
+    "PAY0_C1": (1685, 750),
+    "PAY0_C2": (1740, 792),
+    "BLOCK_BUTTON_C1": (1672, 923),
+    "BLOCK_BUTTON_C2": (1722, 978)
 }
 
 REF_IMG_DICT = {
@@ -66,6 +68,7 @@ REF_IMG_DICT = {
     "REWARD_SCREEN": cv2.imread(DIR + "/ref_images/REWARD_SCREEN.png"),
     "DEFEAT_SCREEN_TOP": cv2.imread(DIR + "/ref_images/DEFEAT_SCREEN_TOP.png"),
     "DISCARD": cv2.imread(DIR + "/ref_images/DISCARD.png"),
+    "PAY0": cv2.imread("./ref_images/pay0button.png"),
 }
 
 CLICK_LOCATION_DICT = {
@@ -89,4 +92,8 @@ CLICK_LOCATION_DICT = {
     "SELECT_FIRST_DECK": (456, 573),
     "SELECT_SECOND_DECK": (749, 561),
     "DISCARD": (938, 1020),
+    "PAY0": (1720,780),
+    "CONFIRM0": (1780,950),
+    "GEAR": (1885, 35),
+    "CONCEDE": (960, 635)
 }

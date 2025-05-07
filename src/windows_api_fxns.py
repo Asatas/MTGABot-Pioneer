@@ -129,37 +129,6 @@ def write_img(img, type):
         exit_and_report("Invalid write_img type", img)
 
 
-def read_score_db(interval):
-    now = datetime.now()
-    date_str = now.strftime("%m-%d-%Y")
-    logs_directory_path = DIR + "/logs/" + date_str
-    path = logs_directory_path + "/scores.json"
-    if interval == "DAY":
-        if os.path.isfile(path):
-            with open(path, "r") as openfile:
-                data = json.load(openfile)
-                return data
-        else:
-            return {
-                "main": {"wins": 0, "losses": 0, "unknown": 0, "finished_playing": 0},
-                "color": {"wins": 0, "losses": 0, "unknown": 0, "finished_playing": 0},
-            }
-    else:
-        exit_and_report("Invalid interval type for read_score_db", None)
-
-
-def write_score_db(interval, score_db):
-    now = datetime.now()
-    date_str = now.strftime("%m-%d-%Y")
-    logs_directory_path = DIR + "/logs/" + date_str
-    path = logs_directory_path + "/scores.json"
-    if interval == "DAY":
-        with open(path, "w") as outfile:
-            json.dump(score_db, outfile)
-    else:
-        exit_and_report("Invalid interval type for read_score_db", None)
-
-
 def failsafe():
     if mouse.position == (0, 0):
         lprint("FAILSAFE TRIGGERED, EXITING")

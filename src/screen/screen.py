@@ -121,7 +121,7 @@ def get_screenshot(x1, y1, x2, y2):
     if ret:
         box = (x1, y1, x2, y2)
         screen = ImageGrab.grab(box)
-        img = np.array(screen.getdata(), dtype=float).reshape(
+        img = np.array(screen.getdata(), dtype="float32").reshape(
             (screen.size[1], screen.size[0], 3)
         )
         img_reversed = img.copy()
@@ -143,7 +143,7 @@ def get_system_screenshot():
     box = (x1, y1, x2, y2)
     screen = ImageGrab.grab(box)
 
-    img = np.array(screen.getdata(), dtype=float).reshape(
+    img = np.array(screen.getdata(), dtype="float32").reshape(
         (screen.size[1], screen.size[0], 3)
     )
     img_reversed = img.copy()
@@ -153,24 +153,23 @@ def get_system_screenshot():
 
 
 def locate_leftmost_playable_card():
+    # Define the lower and upper bounds for the blue tint in HSV
+    lower_bound = np.array([95, 100, 150])  # Adjusted for blue tint
+    upper_bound = np.array([135, 255, 255])  # Adjusted for blue tint
 
-    # highlight_color = [255, 255, 0]
-    lower_bound = np.uint8([150, 150, 0])
-    upper_bound = np.uint8([255, 255, 1])
-
+    # Get the hand region
     hand_img = get_hand_region()
-    """print('hand img', hand_img)
-    print('hand img x: ', len(hand_img[0]), 'y: ', len(
-        hand_img), 'z: ', len(hand_img[0][0]))
-    cv2.imwrite('./hand.png', hand_img)"""
 
-    mask = cv2.inRange(hand_img, lower_bound, upper_bound)
-    mask = mask.astype(np.float32)
+    # Convert the hand region to HSV color space
+    hand_img_hsv = cv2.cvtColor(hand_img.astype(np.uint8), cv2.COLOR_BGR2HSV)
 
-    """print('Mask: ', mask)
-    print('Mask x: ', len(mask[0]), 'y: ', len(mask))
-    cv2.imwrite('./mask.png', mask)"""
+    # Create a mask for the blue-tinted areas
+    mask = cv2.inRange(hand_img_hsv, lower_bound, upper_bound)
 
+    # Save the mask for debugging
+    cv2.imwrite('./mask.png', mask)
+
+    # Load the template and convert it to grayscale
     template = REF_IMG_DICT["corner_mask_1"]
     template = cv2.cvtColor(template.astype(np.float32), cv2.COLOR_BGR2GRAY)
     w, h = template.shape
@@ -178,8 +177,15 @@ def locate_leftmost_playable_card():
     leftmost_pt = (mask.shape[1], 0)
     isPlayableCard = False
 
+    # Perform template matching with rotations
     for theta in [0, -10, 10]:
+        # Rotate the template
         template_rotated = ndimage.rotate(template, theta)
+
+        # Ensure the rotated template is of type uint8
+        template_rotated = template_rotated.astype(np.uint8)
+
+        # Perform template matching
         res = cv2.matchTemplate(mask, template_rotated, cv2.TM_CCOEFF_NORMED)
         threshold = 0.55
         loc = np.where(res >= threshold)
@@ -187,6 +193,7 @@ def locate_leftmost_playable_card():
             if pt[0] < leftmost_pt[0]:
                 leftmost_pt = pt
 
+    # Check if a playable card was found
     if leftmost_pt[0] < mask.shape[1]:
         isPlayableCard = True
     leftmost_pt_full_image = [leftmost_pt[0], leftmost_pt[1] + 1080 - 150]

@@ -66,21 +66,8 @@ def isRewardScreen(full_screen_img):
 def isDiscard(full_screen_img):
     return onScreen("DISCARD", full_screen_img, cutoff=2000)
 
-
-def isSelectDecks(full_screen_img):
-    select_decks_one = onScreen(
-        "SELECT_DECK_EVENT_SELECTED", full_screen_img, cutoff=2000
-    )
-    select_decks_two = onScreen(
-        "SELECT_DECK_EVENT_NOT_SELECTED", full_screen_img, cutoff=2000
-    )
-    return select_decks_one or select_decks_two
-
-
-def isFindMatch(full_screen_img):
-    select_decks_one = onScreen("DECK_EXPANDED", full_screen_img, cutoff=2000)
-    select_decks_two = onScreen("DECK_COLLAPSED", full_screen_img, cutoff=2000)
-    return select_decks_one or select_decks_two
+def isPay0(full_screen_img):
+    return onScreen("PAY0", full_screen_img, cutoff=6500)
 
 
 def onScreen(element_to_look_for, full_screen_img, cutoff=10000, save_img=False):
